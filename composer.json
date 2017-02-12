@@ -1,0 +1,16 @@
+{
+    "name": "roy/userkit",
+    "description": "Plug-in user management and analytics",
+    "type": "library",
+    "require": {
+        "php-activerecord/php-activerecord": "^1.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roy de Jong",
+            "email": "email@roydejong.net"
+        }
+    ],
+    "minimum-stability": "dev"
+}
