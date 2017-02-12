@@ -2,16 +2,29 @@
 
 namespace UserKit;
 
+use UserKit\Runtime\Config;
+
 /**
  * Main API for the UserKit analytics library.
  */
 class UserKit
 {
     /**
-     * @return bool
+     * @var Config
      */
-    public function test(): bool
+    protected static $config;
+
+    /**
+     * Returns the Config object for UserKit.
+     *
+     * @return Config
+     */
+    public static function configure(): Config
     {
-        return true;
+        if (!self::$config) {
+            self::$config = new Config();
+        }
+
+        return self::$config;
     }
 }
