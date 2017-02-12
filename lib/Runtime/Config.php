@@ -1,6 +1,7 @@
 <?php
 
 namespace UserKit\Runtime;
+use UserKit\Runtime\Exceptions\UserKitConfigException;
 
 /**
  * Manages configuration options for UserKit.
@@ -34,11 +35,16 @@ class Config
      */
     protected function applyDatabaseConfiguration(): void
     {
-        /**
-         * @var $configObject \ActiveRecord\Config
-         */
-        $configObject = \ActiveRecord\Config::instance();
-        $configObject->set_connections(['db' => $this->connectionString]);
-        $configObject->set_default_connection('db');
+        try {
+            /**
+             * @var $configObject \ActiveRecord\Config
+             */
+            $configObject = \ActiveRecord\Config::instance();
+            $configObject->set_connections(['db' => $this->connectionString]);
+            $configObject->set_default_connection('db');
+        }
+        catch (\Exception $ex) {
+            throw new UserKitConfigException("Database configuration problem: {$ex->getMessage()}", $ex);
+        }
     }
 }
