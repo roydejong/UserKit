@@ -1,5 +1,5 @@
 {
-    "name": "roy/userkit",
+    "name": "roydejong/userkit",
     "description": "Plug-in user management and analytics",
     "type": "library",
     "require": {
