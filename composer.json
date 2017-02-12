@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=7.1",
-        "php-activerecord/php-activerecord": "^1.1"
+        "softwarepunt/php-activerecord": "dev-master"
     },
     "license": "MIT",
     "authors": [

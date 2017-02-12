@@ -4,24 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3530ea380cf2532fa6842078dbb1cda8",
+    "content-hash": "610a5770b340cf304a05c29cb89ee2fb",
     "packages": [
         {
-            "name": "php-activerecord/php-activerecord",
-            "version": "v1.1.2",
+            "name": "softwarepunt/php-activerecord",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jpfuentes2/php-activerecord.git",
-                "reference": "5a957483801ecc41d95381e9868de7bb08f9be3a"
+                "url": "https://github.com/SoftwarePunt/php-activerecord.git",
+                "reference": "9db32add8b2b07e8cd4b9ec6ccb060827043de83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jpfuentes2/php-activerecord/zipball/5a957483801ecc41d95381e9868de7bb08f9be3a",
-                "reference": "5a957483801ecc41d95381e9868de7bb08f9be3a",
+                "url": "https://api.github.com/repos/SoftwarePunt/php-activerecord/zipball/9db32add8b2b07e8cd4b9ec6ccb060827043de83",
+                "reference": "9db32add8b2b07e8cd4b9ec6ccb060827043de83",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
+            },
+            "replace": {
+                "php-activerecord": "*"
+            },
+            "require-dev": {
+                "pear/log": "~1.12",
+                "pear/pear_exception": "1.0-beta1",
+                "phpunit/phpunit": "4.*"
+            },
+            "suggest": {
+                "maximebf/debugbar": "This package can intergrate into the PHP Debugbar"
             },
             "type": "library",
             "autoload": {
@@ -39,13 +50,15 @@
                 "activerecord",
                 "orm"
             ],
-            "time": "2013-04-26T21:01:08+00:00"
+            "time": "2017-02-09 13:34:41"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "softwarepunt/php-activerecord": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
