@@ -1,6 +1,6 @@
 {
     "name": "roydejong/userkit",
-    "description": "Plug-in user management and analytics",
+    "description": "Plug-in local user management and analytics",
     "type": "library",
     "require": {
         "php": ">=7.1",
@@ -13,5 +13,10 @@
             "email": "email@roydejong.net"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "UserKit\\": "lib/"
+        }
+    }
 }
