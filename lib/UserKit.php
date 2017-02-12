@@ -15,6 +15,16 @@ class UserKit
     protected static $config;
 
     /**
+     * Gets the absolute path to UserKit's installation directory.
+     *
+     * @return string
+     */
+    public static function getLibraryPath(): string
+    {
+        return realpath(__DIR__ . "/../");
+    }
+
+    /**
      * Returns the Config object for UserKit.
      *
      * @return Config

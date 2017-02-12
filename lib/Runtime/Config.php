@@ -2,6 +2,7 @@
 
 namespace UserKit\Runtime;
 use UserKit\Runtime\Exceptions\UserKitConfigException;
+use UserKit\UserKit;
 
 /**
  * Manages configuration options for UserKit.
@@ -16,6 +17,16 @@ class Config
      * @var string
      */
     protected $connectionString;
+
+    /**
+     * Gets the database connection string.
+     *
+     * @return string
+     */
+    public function getConnectionString(): string
+    {
+        return $this->connectionString;
+    }
 
     /**
      * Sets the database connection string.
@@ -35,6 +46,7 @@ class Config
      */
     protected function applyDatabaseConfiguration(): void
     {
+        // Apply the configuration to the ORM library, this should catch most issues with connection strings
         try {
             /**
              * @var $configObject \ActiveRecord\Config
@@ -42,9 +54,14 @@ class Config
             $configObject = \ActiveRecord\Config::instance();
             $configObject->set_connections(['db' => $this->connectionString]);
             $configObject->set_default_connection('db');
+            $configObject->set_model_directory(UserKit::getLibraryPath() . '/lib/Models');
         }
         catch (\Exception $ex) {
             throw new UserKitConfigException("Database configuration problem: {$ex->getMessage()}", $ex);
         }
+
+        // Attempt to install or upgrade the database using our Phinx migrations
+        $databaseInstaller = new SelfInstall($this);
+        $databaseInstaller->migrateDatabase();
     }
 }
