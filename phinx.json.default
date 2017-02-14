@@ -1,0 +1,19 @@
+{
+  "paths": {
+    "migrations": "db/migrations",
+    "seeds": "db/seeds"
+  },
+  "environments": {
+    "default_migration_table": "userkit_database_version",
+    "default_database": "db_env",
+    "db_env": {
+      "adapter": "mysql",
+      "host": "localhost",
+      "name": "userkit",
+      "user": "root",
+      "pass": null,
+      "port": 3306,
+      "charset": "utf8"
+    }
+  }
+}
