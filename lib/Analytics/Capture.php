@@ -47,10 +47,40 @@ class Capture
      */
     protected function captureRequestFromGlobals(): Capture
     {
-        // TODO Wrap in setters
-        $this->requestUri = $_SERVER['REQUEST_URI'];
-        $this->userAgent = $_SERVER['HTTP_USER_AGENT'];
-        $this->remoteAddress = $_SERVER['REMOTE_ADDR'];
+        $this->setRequestUri($_SERVER['REQUEST_URI']);
+        $this->setUserAgent($_SERVER['HTTP_USER_AGENT']);
+        $this->setRemoteAddress($_SERVER['REMOTE_ADDR']);
+        return $this;
+    }
+
+    /**
+     * @param string $requestUri
+     * @return $this|Capture
+     */
+    public function setRequestUri(string $requestUri): Capture
+    {
+        // TODO/IDEA: Option to strip out certain query string parameters
+        $this->requestUri = $requestUri;
+        return $this;
+    }
+
+    /**
+     * @param string $userAgent
+     * @return $this|Capture
+     */
+    public function setUserAgent(string $userAgent): Capture
+    {
+        $this->userAgent = $userAgent;
+        return $this;
+    }
+
+    /**
+     * @param string $remoteAddress
+     * @return $this|Capture
+     */
+    public function setRemoteAddress(string $remoteAddress): Capture
+    {
+        $this->remoteAddress = $remoteAddress;
         return $this;
     }
 
