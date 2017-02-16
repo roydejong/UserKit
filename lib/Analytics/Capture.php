@@ -2,8 +2,11 @@
 
 namespace UserKit\Analytics;
 
+use ActiveRecord\DateTime;
 use UserKit\Analytics\Events\ICaptureFlushedEventHandler;
 use UserKit\Analytics\Utils\Fingerprint;
+use UserKit\Analytics\Utils\UserAgent;
+use UserKit\Models\UserkitVisitor;
 
 /**
  * An analytics capturing transaction.
@@ -29,6 +32,11 @@ class Capture
      * @var ?string
      */
     protected $userAgent;
+
+    /**
+     * @var ?string
+     */
+    protected $referer;
 
     /**
      * @var ICaptureFlushedEventHandler[]
@@ -75,6 +83,7 @@ class Capture
         $this->setRemoteAddress($_SERVER['REMOTE_ADDR']);
 
         $this->setUserAgent($this->getRequestHeader('User-Agent'));
+        $this->setReferer($this->getRequestHeader('Referer'));
         return $this;
     }
 
@@ -152,11 +161,11 @@ class Capture
     }
 
     /**
-     * @return null|string
+     * @return UserAgent
      */
-    public function getUserAgent(): ?string
+    public function getUserAgent(): UserAgent
     {
-        return $this->userAgent;
+        return new UserAgent($this->userAgent);
     }
 
     /**
@@ -175,6 +184,24 @@ class Capture
     public function getRemoteAddress(): ?string
     {
         return $this->remoteAddress;
+    }
+
+    /**
+     * @param string $referer
+     * @return $this|Capture
+     */
+    public function setReferer(?string $referer): Capture
+    {
+        $this->referer = $referer;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferer(): ?string
+    {
+        return $this->referer;
     }
 
     /**
@@ -209,9 +236,48 @@ class Capture
      */
     public function flush(): void
     {
-        // TODO Actual work
-        $visitorFingerprint = $this->getFingerprint();
+        // Prepare data for registration
+        $now = new DateTime();
+        $fingerprint = $this->getFingerprint();
 
+        // Add to database, creating a new record or updating the previous fingerprint/date combo record
+        // To clarify: Each unique visitor (identified by fingerprint) is only logged once per date
+        // We prefer up-to-date info for most fields, but the top goal is to fill as many fields as possible
+        $visitRecord = new UserkitVisitor();
+        $visitRecord->fingerprint = $fingerprint;
+        $visitRecord->date = $now->format('Y-m-d');
+
+        $existingRecord = $visitRecord->getExisting();
+
+        if ($existingRecord) {
+            // Updating an existing record
+            $visitRecord = $existingRecord;
+        } else {
+            // Creating a new record
+            $visitRecord->page_views = 0;
+        }
+
+        $visitRecord->page_views++;
+
+        if (!$visitRecord->agent_platform) {
+            $visitRecord->agent_platform = $this->getUserAgent()->getPlatform();
+        }
+
+        if (!$visitRecord->agent_browser) {
+            $visitRecord->agent_browser = $this->getUserAgent()->getBrowser();
+        }
+
+        if ($this->getReferer()) {
+            $visitRecord->referer = $this->getReferer();
+        }
+
+        if (!$visitRecord->remote_address) {
+            $visitRecord->remote_address = $this->getRemoteAddress();
+        }
+
+        $visitRecord->save();
+
+        // Trigger event handlers for "flushed" event
         foreach ($this->flushedEventHandlers as $eventHandler) {
             $eventHandler->onCaptureFlushed($this);
         }

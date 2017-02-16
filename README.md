@@ -27,6 +27,10 @@ You can install UserKit via composer. This will set up the library as a dependen
 
     composer require roydejong/userkit
     
+Userkit currently uses Browscap to collect user agent data, for which you'll need to download up-to-date definitions:
+
+    vendor/bin/browscap-php browscap:update
+    
 And that's it. You're ready to start integrating.
     
 ### Integrating into your app

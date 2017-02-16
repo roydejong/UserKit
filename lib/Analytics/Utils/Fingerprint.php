@@ -5,6 +5,8 @@ namespace UserKit\Analytics\Utils;
 use UserKit\Analytics\Capture;
 
 /**
+ * Utility for calculating visitor fingerprints.
+ *
  * A Fingerprint can be generated based on an ongoing capture, and attempts to identify "unique" visitor sessions.
  *
  * Fingerprints are composed using environmental information contained within the request, such as:
@@ -86,7 +88,6 @@ class Fingerprint
             $plain .= $part;
         }
 
-        var_dump($plain);
         return $plain;
     }
 
