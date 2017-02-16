@@ -11,7 +11,7 @@ class WebUi
 {
     public function show(): void
     {
-        $view = new View('test.twig');
+        $view = new View('base.twig');
         $view->output();
     }
 }
