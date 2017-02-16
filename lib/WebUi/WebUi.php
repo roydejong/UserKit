@@ -11,6 +11,9 @@ class WebUi
 {
     public function show(): void
     {
+        // TODO Actual request parsing & handling
+        // TODO Handle POST requests for resource loading
+
         $view = new View('base.twig');
         $view->output();
     }

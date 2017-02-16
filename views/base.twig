@@ -10,7 +10,35 @@
 </head>
 <body>
 
-<h1>UserKit</h1>
+<div id="loader" style="padding: 20em; font-family: sans-serif; text-align: center;">
+    <h1 style="font-size: 32px; font-weight: lighter;">Loading UserKit...</h1>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script>
+var UserKitLoader = {
+    getUrl: function () {
+        return document.location.href;
+    },
+
+    loadAsset: function (path) {
+        var payload = {
+            type: 'fetch_resource',
+            target: path
+        };
+
+        $.post(UserKitLoader.getUrl(), payload).done(function () {
+            alert('hi');
+        });
+    }
+};
+</script>
+<script>
+$(document).ready(function () {
+    UserKitLoader.loadAsset('scripts/app.js');
+});
+</script>
 
 </body>
 </html>
