@@ -66,3 +66,14 @@ You can enrich your capture with more data to get more useful insights. For exam
         ])
         
 Note: You can call `capture()` multiple times to add more data to the capture. Your data will still be logged once. A capture is saved to the database when your script shuts down, or when you manually call `flush()` on the capture object.   
+
+##### Displaying the UserKit admin page
+
+Here's where it gets good: activate UserKit's Web UI to view analytics and get user insights. It only takes a little bit of code:
+
+    UserKit::webui()
+        ->show()
+        
+UserKit will build and render the UI for you. Simple as that!
+
+**Note:** It's your responsibility to secure this page to protect your users' privacy.  UserKit does not currently provide any authentication functionality.

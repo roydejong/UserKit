@@ -5,6 +5,7 @@ namespace UserKit;
 use UserKit\Analytics\Capture;
 use UserKit\Analytics\Events\ICaptureFlushedEventHandler;
 use UserKit\Runtime\Config;
+use UserKit\WebUi\WebUi;
 
 /**
  * Main API for the UserKit analytics library.
@@ -31,6 +32,13 @@ class UserKit
      * @var Capture
      */
     protected static $capture = null;
+
+    /**
+     * The web interface provider.
+     *
+     * @var WebUi
+     */
+    protected static $webUi = null;
 
     /**
      * Gets the absolute path to UserKit's installation directory.
@@ -104,5 +112,19 @@ class UserKit
         }
 
         return self::$capture;
+    }
+
+    /**
+     * Gets the Web interface provider.
+     *
+     * @return WebUi
+     */
+    public static function webui(): WebUi
+    {
+        if (!self::$webUi) {
+            self::$webUi = new WebUi();
+        }
+
+        return self::$webUi;
     }
 }
