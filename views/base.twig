@@ -18,25 +18,67 @@
 
 <script>
 var UserKitLoader = {
-    getUrl: function () {
+    pendingReqs: 0,
+    allReadyCallbacks: [],
+
+    getBaseUrl: function () {
         return document.location.href;
     },
 
-    loadAsset: function (path) {
+    allReady: function (callback) {
+        if (callback) {
+            UserKitLoader.allReadyCallbacks.push(callback);
+
+            if (this.pendingReqs == 0) {
+                this.allReady();
+            }
+        } else {
+            if (this.pendingReqs == 0) {
+                for (var i = 0; i < this.allReadyCallbacks.length; i++) {
+                    this.allReadyCallbacks[i]();
+                }
+            }
+        }
+    },
+
+    loadAsset: function (path, dataHandler, callback) {
         var payload = {
-            type: 'fetch_resource',
+            type: 'asset.fetch',
             target: path
         };
 
-        $.post(UserKitLoader.getUrl(), payload).done(function () {
-            alert('hi');
+        if (!callback) {
+            callback = function () { };
+        }
+
+        this.pendingReqs++;
+
+        $.post(UserKitLoader.getBaseUrl(), JSON.stringify(payload)).done(function (data) {
+            dataHandler(data);
+            callback();
+
+            UserKitLoader.pendingReqs--;
+            UserKitLoader.allReady();
         });
+    },
+
+    loadJs: function (path, callback) {
+        this.loadAsset(path, function (data) {
+            $('<script />').html(data).appendTo($('body'));
+        }, callback);
+    },
+
+    loadCss: function (path, callback) {
+        this.loadAsset(path, function (data) {
+            $('<style />').html(data).appendTo($('body'));
+        }, callback);
     }
 };
 </script>
+
 <script>
 $(document).ready(function () {
-    UserKitLoader.loadAsset('scripts/app.js');
+    UserKitLoader.loadJs('scripts/app.js');
 });
 </script>
 
