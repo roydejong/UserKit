@@ -10,11 +10,49 @@
 </head>
 <body>
 
-<div id="loader" style="padding: 20em; font-family: sans-serif; text-align: center;">
-    <h1 style="font-size: 32px; font-weight: lighter;">Loading UserKit...</h1>
+<div id="loader" style="display: block; position: fixed; left: 0; right: 0; bottom: 50px; text-align: center;">
+    <h1 style="color: #666; font-size: 16px; font-family: sans-serif; font-weight: lighter;">Hang on, loading UserKit now...</h1>
+</div>
+
+<div id="main" style="display: none;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="branding">
+                    <span>UserKit</span>
+                </div>
+                <nav class="side-nav">
+                    <h3>Analytics</h3>
+                    <ul class="nav flex-column nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Realtime</a>
+                        </li>
+                    </ul>
+                </nav>
+                <hr />
+            </div>
+            <div class="col-md-9">
+                <header class="context-header">
+                    <h3>Analytics</h3>
+                    <h1>Overview</h1>
+
+                    <div id="chart_div"></div>
+
+                </header>
+                <hr />
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
 var UserKitLoader = {
