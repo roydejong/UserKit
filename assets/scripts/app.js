@@ -13,36 +13,40 @@ var UserKit = {
         $('#loader').hide();
         $('#main').fadeIn('fast');
 
+        Chart.defaults.global.legend.display = false;
+
         var graphReq = new UserKitRequest('graph.visitors');
         graphReq.onSuccess(function (result) {
             var labelData = [];
             var rowData = [];
+            var maxCount = 0;
 
             for (var key in result.data) {
                 var value = result.data[key];
 
                 labelData.push(key);
                 rowData.push(value);
+
+                if (value > maxCount) {
+                    maxCount = value;
+                }
             }
 
             var data = {
                 labels: labelData,
                 datasets: [
                     {
-                        label: "Visitors",
-                        lineTension: .1,
-                        backgroundColor: "rgba(75,192,192,0.4)",
-                        borderColor: "rgba(75,192,192,1)",
+                        label: 'Visitors',
+                        lineTension: 0,
+                        backgroundColor: "rgba(52, 152, 219, .25)",
+                        borderColor: "#2980b9",
                         borderCapStyle: 'butt',
-                        borderDash: [],
-                        borderDashOffset: 0.0,
                         borderJoinStyle: 'miter',
-                        pointBorderColor: "rgba(75,192,192,1)",
-                        pointBackgroundColor: "#fff",
-                        pointBorderWidth: 1,
-                        pointHoverRadius: 5,
-                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointBorderColor: "#2980b9",
+                        pointBorderWidth: 6,
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: "#2980b9",
+                        pointHoverBorderColor: "#fff",
                         pointHoverBorderWidth: 2,
                         pointRadius: 1,
                         pointHitRadius: 10,
