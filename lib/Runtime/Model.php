@@ -15,7 +15,7 @@ class Model extends \ActiveRecord\Model
      *
      * @return $this|Model|null Database model if data found, otherwise null
      */
-    public function getExisting(): Model
+    public function getExisting(): ?Model
     {
         $conditions = [];
 
