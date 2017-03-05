@@ -34,7 +34,7 @@ class GraphVisitors extends RequestHandler
         /**
          * @var $pdoStatement \PDOStatement
          */
-        $pdoStatement = UserkitVisitor::connection()->query('SELECT COUNT(fingerprint) AS `count`, date FROM userkit_visitors WHERE date >= ? AND date <= ? GROUP BY date ORDER BY date ASC;', $pdoParams);
+        $pdoStatement = UserkitVisitor::connection()->query('SELECT COUNT(fingerprint) AS `count`, date, SUM(page_views) AS `pageviews` FROM userkit_visitors WHERE date >= ? AND date <= ? GROUP BY date ORDER BY date ASC;', $pdoParams);
 
         $dataAll = $pdoStatement->fetchAll();
         $dataIndexed = [];
@@ -43,12 +43,19 @@ class GraphVisitors extends RequestHandler
         $dayCounter = (clone $fromDate);
 
         for ($i = 0; $i < $dayAmount; $i++) {
-            $dataIndexed[$dayCounter->format(Connection::$date_format)] = 0;
+            $dataIndexed[$dayCounter->format(Connection::$date_format)] = [
+                'visitors' => 0,
+                'pageviews' => 0
+            ];
+
             $dayCounter->modify('+1 day');
         }
 
         foreach ($dataAll as $row) {
-            $dataIndexed[$row['date']] = intval($row['count']);
+            $dataIndexed[$row['date']] = [
+                'visitors' => intval($row['count']),
+                'pageviews' => intval($row['pageviews'])
+            ];
         }
 
         $this->serveJsonResponse([

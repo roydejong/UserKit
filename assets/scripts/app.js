@@ -19,18 +19,29 @@ var UserKit = {
         graphReq.onSuccess(function (result) {
             var labelData = [];
             var rowData = [];
+
             var maxCount = 0;
+            var totalCount = 0;
+            var totalPageViews = 0;
 
             for (var key in result.data) {
-                var value = result.data[key];
+                var valueObj = result.data[key];
 
                 labelData.push(key);
-                rowData.push(value);
+                rowData.push(valueObj.visitors);
 
-                if (value > maxCount) {
-                    maxCount = value;
+                if (valueObj.visitors > maxCount) {
+                    maxCount = valueObj.visitors;
                 }
+
+                totalCount += valueObj.visitors;
+                totalPageViews += valueObj.pageviews;
             }
+
+            $('.stat-total-sessions').text(totalCount);
+            $('.stat-total-guests').text(totalCount);
+            $('.stat-total-users').text('0');
+            $('.stat-total-page-views').text(totalPageViews);
 
             var data = {
                 labels: labelData,
