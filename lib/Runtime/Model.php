@@ -2,6 +2,7 @@
 
 namespace UserKit\Runtime;
 
+use ActiveRecord\Connection;
 use ActiveRecord\RecordNotFound;
 
 /**
@@ -12,9 +13,9 @@ class Model extends \ActiveRecord\Model
     /**
      * Using the currently specified arguments on this model, tries to query the database for an exact match.
      *
-     * @return Model|null Database model if data found, otherwise null
+     * @return $this|Model|null Database model if data found, otherwise null
      */
-    public function getExisting()
+    public function getExisting(): Model
     {
         $conditions = [];
 
@@ -44,5 +45,16 @@ class Model extends \ActiveRecord\Model
         }
 
         return null;
+    }
+
+    /**
+     * Formats a DateTime key within this model instance.
+     *
+     * @param string $dateKey
+     * @return string
+     */
+    public function formatDate(string $dateKey): string
+    {
+        return $this->$dateKey->foprmat(Connection::$datetime_format);
     }
 }

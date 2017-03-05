@@ -4,6 +4,7 @@ namespace UserKit\WebUi;
 
 use UserKit\Runtime\View;
 use UserKit\WebUi\Handlers\AssetFetch;
+use UserKit\WebUi\Handlers\GraphVisitors;
 
 /**
  * Provides the web based interface to view UserKit data.
@@ -39,6 +40,7 @@ class WebUi
         $this->handlers = [];
 
         $this->handlers['asset.fetch'] = new AssetFetch();
+        $this->handlers['graph.visitors'] = new GraphVisitors();
     }
 
     /**

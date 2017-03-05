@@ -15,4 +15,15 @@ abstract class RequestHandler
      * @param Request $request
      */
     public abstract function handle(Request $request): void;
+
+    /**
+     * Responds with a JSON payload.
+     *
+     * @param mixed $data
+     */
+    public function serveJsonResponse($data): void
+    {
+        header('Content-Type: application/json; charset=utf8');
+        echo json_encode($data);
+    }
 }
