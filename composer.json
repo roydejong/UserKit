@@ -6,9 +6,9 @@
         "php": ">=7.1",
         "softwarepunt/php-activerecord": "dev-master",
         "robmorgan/phinx": ">=0.7.0",
-        "ad7six/dsn": "^0.4.0",
-        "browscap/browscap-php": "^3.0",
-        "twig/twig": ">2.1"
+        "ad7six/dsn": ">=0.4.0",
+        "browscap/browscap-php": ">=3.0",
+        "twig/twig": ">=2.1"
     },
     "license": "MIT",
     "authors": [
